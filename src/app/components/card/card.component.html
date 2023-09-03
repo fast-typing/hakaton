@@ -1,0 +1,18 @@
+<div class="flex flex-col w-100 shadow container hover:cursor-pointer">
+    <img class="w-100" src="assets/pelmen.png" alt="{{card.img}}">
+    <!-- <img class="w-100" src="{{card.img}}" alt="{{card.img}}"> -->
+    <div class="p-4">
+        <h1 class="middle-title">{{card.title}}</h1>
+        <p class="sub-text my-2">{{getDescription()}}</p>
+        <div class="flex justify-between">
+            <div class="blue-text icon-text">
+                <i class="pi pi-money-bill"></i>
+                <span>{{getPrice()}}</span>
+            </div>
+            <div class="yell-text icon-text">
+                <i class="pi pi-star"></i>
+                <span>{{card.rating}}</span>
+            </div>
+        </div>
+    </div>
+</div>

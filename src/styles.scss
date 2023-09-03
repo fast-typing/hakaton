@@ -1,0 +1,49 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  font-family: 'Montserrat';
+}
+
+:root {
+  --yellow: #F5B911;
+  --blue: #3B82F6;
+  --sub-text: #979797
+}
+
+.yell-text {
+  color: var(--yellow);
+}
+
+.blue-text {
+  color: var(--blue);
+}
+
+.big-title {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.middle-title {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.sub-text {
+  color: var(--sub-text);
+  font-size: 12px;
+}
+
+.icon-text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

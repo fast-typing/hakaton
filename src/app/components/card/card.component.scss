@@ -1,0 +1,14 @@
+:host {
+    .container {
+        border-radius: 8px;
+
+        .shadow {
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.10);
+        }
+    
+        img {
+            border-radius: 8px 8px 0 0;
+        }
+    }
+
+}

@@ -1,0 +1,76 @@
+<main>
+  <div class="flex">
+    <div>
+      <h1>Достопримечательности Удмрурсткой Республики</h1>
+      <p>
+        тексттексттексттексттексттексттексттексттексттексттексттексттексттексттекст
+      </p>
+    </div>
+    <img src="assets/logo.png" alt="" />
+  </div>
+  <div>
+    <a routerLink="/attractions/official" class="flex justify-between mb-4">
+      <h2>Официальные</h2>
+      <i class="pi pi-arrow-right"></i>
+    </a>
+    <div
+      class="grid gap-8 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6"
+      *ngIf="attractions.length"
+    >
+      <app-card
+        *ngFor="let attr of attractions"
+        [card]="attr"
+        (click)="openAttr(attr)"
+      ></app-card>
+    </div>
+    <p-progressSpinner *ngIf="!attractions.length"></p-progressSpinner>
+  </div>
+</main>
+
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '70vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  *ngIf="chosenAttraction"
+>
+  <div class="flex">
+    <img class="modal-img" src="assets/pelmen.png" alt="" />
+    <div class="flex flex-col gap-2 ml-4">
+      <div class="flex gap-2">
+        <h1 class="middle-title">{{ chosenAttraction.title }}</h1>
+        <div class="icon-text">
+          <i class="pi pi-star"></i>
+          <span>{{ chosenAttraction.rating }}</span>
+        </div>
+        <div class="icon-text">
+          <i class="pi pi-money-bill"></i>
+          <p>{{ chosenAttraction.price }}</p>
+        </div>
+      </div>
+      <p><b> Описание: </b> {{ chosenAttraction.description }}</p>
+      <p><b> Время работы: </b> {{ chosenAttraction.time }}</p>
+      <p><b>Адрес: </b> {{ chosenAttraction.address }}</p>
+      <div *ngFor="let review of chosenAttraction.reviews">
+        {{ review }}
+      </div>
+      <div class="container">
+        <ya-map
+          [center]="[
+            chosenAttraction.coordinates[0],
+            chosenAttraction.coordinates[1]
+          ]"
+          [zoom]="12"
+        >
+          <ya-placemark
+            [geometry]="[
+              chosenAttraction.coordinates[0],
+              chosenAttraction.coordinates[1]
+            ]"
+          ></ya-placemark>
+        </ya-map>
+      </div>
+    </div>
+  </div>
+</p-dialog>
