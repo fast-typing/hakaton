@@ -9,6 +9,7 @@ export interface Attraction {
     time: string
     img: string
     coordinates: number[]
+    // type: string
 }
 
 export interface Review {

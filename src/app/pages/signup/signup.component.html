@@ -1,1 +1,6 @@
-<p>signup works!</p>
+<form (ngSubmit)="submit()" class="grid w-20 gap-4">
+    <h1>Регистрация</h1>
+    <input pInputText type="text" formControlName="userName" placeholder="Ваше имя">
+    <input pInputText type="text" formControlName="email" placeholder="Ваша почта">
+    <input pInputText type="text" formControlName="password" placeholder="Ваш пароль">
+</form>

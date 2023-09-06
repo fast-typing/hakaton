@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularYandexMapsModule, YaConfig} from 'angular8-yandex-maps';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 const mapConfig: YaConfig = {
   apikey: '54f1889a-0cc9-49d2-bfa1-c8d65d1fe91e',
@@ -24,6 +25,8 @@ const mapConfig: YaConfig = {
 const routes: Routes = [
   { path: 'attractions', component: AttractionsComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: 'login', component: LoginComponent },
 ]
 
 @NgModule({
@@ -37,6 +40,7 @@ const routes: Routes = [
     SignupComponent,
   ],
   imports: [
+    InputTextModule,
     AngularYandexMapsModule,
     DialogModule,
     BrowserModule,
