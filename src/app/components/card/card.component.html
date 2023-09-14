@@ -1,22 +1,55 @@
 <div class="flex flex-col w-100 shadow container hover:cursor-pointer">
-    <div class="float-text icon-text">
-        <i class="pi pi-star"></i>
-        <span>{{card.rating}}</span>
-    </div>
-    <img class="w-100" src="assets/pelmen.png" alt="{{card.img}}">
-    <!-- <img class="w-100" src="{{card.img}}" alt="{{card.img}}"> -->
-    <div class="p-4">
-        <h1 class="middle-title">{{card.title}}</h1>
-        <p class="sub-text my-2">{{getDescription()}}</p>
-        <div class="flex justify-between">
-            <div class="blue-text icon-text" style="font-size: 14px;">
-                <i class="pi pi-money-bill"></i>
-                <span>{{getPrice()}}</span>
+    <i class="float-icon pi" [class]="data.isFavorite ? 'pi-heart-fill red' : 'pi-heart' " (click)="toggleFavorite()"></i>
+    <div (click)="toggleModal()">
+        <img src="assets/pelmen.png" alt="{{data.img}}">
+        <!-- <img class="w-100" src="{{data.img}}" alt="{{data.img}}"> -->
+        <div class="p-4 grid gap-2">
+            <div class="flex gap-1 categories">
+                <span class="category" *ngFor="let category of data.categories">
+                    {{category}} 
+                </span>
             </div>
-            <div class="yell-text icon-text" style="font-size: 14px;">
-                <i class="pi pi-clock"></i>
-                <span>{{card.time}}</span>
+            <div class="grid gap-1">
+                <h1 class="middle-title">{{data.title}}</h1>
+                <p class="sub-text description">{{data.description}}</p>
+            </div>
+            <div class="flex justify-between items-end">
+                <div class="icon-text">
+                    <span style="color: #f09b0a">★ {{data.rating.stars}} <span class="sub-text">({{data.rating.quantity}})</span></span>
+                </div>
+                <!-- <p style="color: var(--red); font-weight: 700; font-size: 12px"> -->
+                <p>
+                    {{data.city}}
+                </p>
             </div>
         </div>
     </div>
 </div>
+
+<p-dialog [(visible)]="isModalVisible" [modal]="true" [style]="{ width: '70vw' }" [draggable]="false"
+    [resizable]="false" *ngIf="data" header="Подробная информация">
+    <div class="flex">
+        <img class="modal-img" src="assets/pelmen.png" alt="" />
+        <div class="flex flex-col gap-4 ml-4">
+            <h1 class="big-title" style="margin: 0;">{{ data.title }}</h1>
+            <p><span style="color: var(--sub-text); font-weight: 600;">Стоимость: </span> <span>{{getPrice()}}</span></p>
+            <p><span style="color: var(--sub-text); font-weight: 600;"> Описание: </span> {{ data.description }}</p>
+            <p><span style="color: var(--sub-text); font-weight: 600;"> Время работы: </span> {{ data.time }}</p>
+            <p><span style="color: var(--sub-text); font-weight: 600;">Адрес: </span> {{ data.address }}</p>
+            <div *ngFor="let review of data.reviews">
+                {{ review }}
+            </div>
+            <!-- <div class="map-container">
+                <ya-map [center]="[
+            data.coordinates[0],
+            data.coordinates[1]
+          ]" [zoom]="12">
+                    <ya-placemark [geometry]="[
+              data.coordinates[0],
+              data.coordinates[1]
+            ]"></ya-placemark>
+                </ya-map>
+            </div> -->
+        </div>
+    </div>
+</p-dialog>

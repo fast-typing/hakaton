@@ -1,0 +1,21 @@
+:host {
+    input {
+        width: 350px
+    }
+
+    header {
+        position: absolute;
+        top: 0;
+        // backdrop-filter: blur(5px) brightness(95%);
+        z-index: 999;
+        left: 0;
+        right: 0;
+    }
+
+    .icon {
+        padding: 10px;
+        border-radius: 8px;
+        background-color: var(--red);
+        color: white;
+    }
+}

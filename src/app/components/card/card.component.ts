@@ -8,15 +8,24 @@ import { Attraction } from 'src/app/interfaces/interface';
 })
 
 export class CardComponent {
-  @Input() card!: Attraction
+  @Input() data!: Attraction
+  public isModalVisible: boolean = false
 
   getPrice(): string {
-    const price = this.card.price
+    const price = this.data.price
     return price == 0 ? 'Бесплатно' : price.toString() + '₽'
   }
 
-  getDescription(): string {
-    const info = this.card.description
-    return info.length > 100 ? info.slice(0, 97) + '...' : info
+  getCategorie(): string {
+    return this.data.categories.join('•')
+  }
+
+  toggleModal() {
+    this.isModalVisible = !this.isModalVisible
+  }
+
+  toggleFavorite() {
+    console.log(1)
+    this.data.isFavorite = !this.data.isFavorite
   }
 }

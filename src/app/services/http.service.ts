@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { Attraction } from "../interfaces/interface";
+import { Attraction, User } from "../interfaces/interface";
 import { CookiesService } from "./cookies.service";
 
 @Injectable({
@@ -17,6 +17,10 @@ export class HTTPService {
 
     getAttractions(): Observable<Attraction[]> {
         return this._request('GET', 'attractions')
+    }
+
+    getUserByToken(token: string): Observable<User> {
+        return this._request('GET', 'user')
     }
 
     _request(method: string, path: string, body?: any): Observable<any> {

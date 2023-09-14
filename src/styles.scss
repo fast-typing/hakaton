@@ -1,42 +1,126 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-// @tailwind base;
-// @tailwind components;
-// @tailwind utilities;
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+// primeng/resources/themes/bootstrap4-light-blue/theme.css
+// primeng/resources/themes/bootstrap4-light-purple/theme.css
+// primeng/resources/themes/bootstrap4-dark-blue/theme.css
+// primeng/resources/themes/bootstrap4-dark-purple/theme.css
+// primeng/resources/themes/md-light-indigo/theme.css
+// primeng/resources/themes/md-light-deeppurple/theme.css
+// primeng/resources/themes/md-dark-indigo/theme.css
+// primeng/resources/themes/md-dark-deeppurple/theme.css
+// primeng/resources/themes/mdc-light-indigo/theme.css
+// primeng/resources/themes/mdc-light-deeppurple/theme.css
+// primeng/resources/themes/mdc-dark-indigo/theme.css
+// primeng/resources/themes/mdc-dark-deeppurple/theme.css
+// primeng/resources/themes/fluent-light/theme.css
+// primeng/resources/themes/lara-light-blue/theme.css
+// primeng/resources/themes/lara-light-indigo/theme.css
+// primeng/resources/themes/lara-light-purple/theme.css
+// primeng/resources/themes/lara-light-teal/theme.css
+// primeng/resources/themes/lara-dark-blue/theme.css
+// primeng/resources/themes/lara-dark-indigo/theme.css
+// primeng/resources/themes/lara-dark-purple/theme.css
+// primeng/resources/themes/lara-dark-teal/theme.css
+// primeng/resources/themes/soho-light/theme.css
+// primeng/resources/themes/soho-dark/theme.css
+// primeng/resources/themes/viva-light/theme.css
+// primeng/resources/themes/viva-dark/theme.css
+// primeng/resources/themes/mira/theme.css
+// primeng/resources/themes/nano/theme.css
+// primeng/resources/themes/saga-blue/theme.css
+// primeng/resources/themes/saga-green/theme.css
+// primeng/resources/themes/saga-orange/theme.css
+// primeng/resources/themes/saga-purple/theme.css
+// primeng/resources/themes/vela-blue/theme.css
+// primeng/resources/themes/vela-green/theme.css
+// primeng/resources/themes/vela-orange/theme.css
+// primeng/resources/themes/vela-purple/theme.css
+// primeng/resources/themes/arya-blue/theme.css
+// primeng/resources/themes/arya-green/theme.css
+// primeng/resources/themes/arya-orange/theme.css
+// primeng/resources/themes/arya-purple/theme.css
+// primeng/resources/themes/nova/theme.css
+// primeng/resources/themes/nova-alt/theme.css
+// primeng/resources/themes/nova-accent/theme.css
+// primeng/resources/themes/luna-amber/theme.css
+// primeng/resources/themes/luna-blue/theme.css
+// primeng/resources/themes/luna-green/theme.css
+// primeng/resources/themes/luna-pink/theme.css
+// primeng/resources/themes/rhea/theme.css
+
 
 * {
   margin: 0;
   padding: 0;
   text-decoration: none;
   font-family: 'Montserrat';
+  // outline: 1px solid green
 }
 
 :root {
-  --yellow: #F5B911;
-  --blue: #3B82F6;
-  --sub-text: #979797
+  --hover-red: #b20f2b;
+  --red: #ED2749;
+  --sub-text: #757575;
+  --gray: #D8DEE9;
+  --side-margin: 150px;
 }
 
-.yell-text {
-  color: var(--yellow);
+button,
+input,
+textarea {
+  padding: 0.5rem;
+  border-radius: 5px !important;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-.blue-text {
-  color: var(--blue);
+input,
+textarea {
+  border: 1px solid var(--gray);
+}
+
+button {
+  color: var(--red);
+  // border: 1px solid var(--red);
+  background-color: var(--red);
+  font-size: 14px;
+  transition: .3s;
+  color: white;
+  padding: 8px 14px;
+
+  &:hover {
+    background-color: var(--hover-red);
+    // color: white;
+  }
+}
+
+.text-button {
+  background-color: transparent;
+  color: var(--red);
+
+  &:hover {
+    color: white;
+    background-color: var(--red);
+  }
+}
+
+.red {
+  color: var(--red)
 }
 
 .big-title {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
 }
 
 .middle-title {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
 }
 
@@ -49,4 +133,19 @@
   display: flex;
   align-items: center;
   gap: 5px;
+}
+
+.main-container {
+  margin: 0 2.5rem;
+  margin-top: 126px;
+}
+
+.input-box {
+  display: grid;
+}
+
+.ng-submitted {
+  .ng-invalid {
+    border-color: var(--red);
+  }
 }

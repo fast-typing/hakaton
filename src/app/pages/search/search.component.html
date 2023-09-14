@@ -1,0 +1,21 @@
+<div class="main-container">
+    <form class="flex justify-between gap-4 mb-8 flex-col md:flex-row" [formGroup]="filter">
+        <div class="input-box">
+            <label for="type">Типы</label>
+            <p-multiSelect optionValue="value" optionLabel="name" id="type" [options]="types" formControlName="types" [showClear]="true" placeholder="Выберите тип"></p-multiSelect>
+        </div>
+        <div class="input-box">
+            <label for="category">Категории</label>
+            <p-multiSelect id="categories" [options]="categories" formControlName="categories" [showClear]="true" placeholder="Выберите категорию"></p-multiSelect>
+        </div>
+        <div class="input-box">
+            <label for="city">Города</label>
+            <p-multiSelect id="city" [options]="cities" formControlName="cities" [showClear]="true" placeholder="Выберите город"></p-multiSelect>
+        </div>
+    </form>
+    <div class="grid gap-8 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="filteredAttractions.length">
+        <div *ngFor="let attr of filteredAttractions">
+            <app-card [data]="attr"></app-card>
+        </div>
+    </div>
+</div>

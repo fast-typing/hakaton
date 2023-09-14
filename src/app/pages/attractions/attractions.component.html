@@ -1,68 +1,43 @@
-<main class="grid gap-12">
-  <div class="flex">
+<main class="grid gap-24">
+  <div class="w-full text-center main-header">
+    <h1 class="big-title float-text">Изучайте Удмртию вместе с нами!</h1>
+    <!-- <p-carousel [value]="imgs" [numVisible]="1" [numScroll]="1" verticalViewPortHeight="100vh" [autoplayInterval]="4000"
+      [circular]="true" [showIndicators]="false" [showNavigators]="false">
+      <ng-template let-img pTemplate="item">
+          <img [src]="'assets/' + img" alt="">
+      </ng-template>
+    </p-carousel> -->
+    <img src="assets/main-1.jpg" alt="">
+  </div>
+  <div class="grid gap-24 main-content">
+    <div class="cities">
+      <h2 class="big-title mb-4">Куда отправимся в путешествие?</h2>
+      <div class="gap-8 grid grid-cols-1 sm:!grid-cols-1 md:!grid-cols-2 lg:!grid-cols-4">
+        <div routerLink="/search" [queryParams]="{city: city.name}" class="city" *ngFor="let city of cities">
+          <img [src]="'assets/' + city.img" alt="">
+          <p>{{city.name}}</p>
+        </div>
+      </div>
+    </div>
     <div>
-      <h1>Достопримечательности Удмрурсткой Республики</h1>
-      <p>
-        тексттексттексттексттексттексттексттексттексттексттексттексттексттексттекст
-      </p>
+      <a (click)="routeToSearch('official')" class="link">
+        <h2 class="big-title">Официальные</h2>
+        <i class="pi pi-arrow-right"></i>
+      </a>
+      <div class="grid gap-8 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="attractions.length">
+        <app-card *ngFor="let attr of attractions" [data]="attr"></app-card>
+      </div>
+      <p-progressSpinner *ngIf="!attractions.length"></p-progressSpinner>
     </div>
-    <img src="assets/logo.png" alt="" />
-  </div>
-  <div>
-    <a routerLink="/attractions/official" class="flex justify-between mb-4">
-      <h2>Официальные</h2>
-      <i class="pi pi-arrow-right"></i>
-    </a>
-    <div class="grid gap-8 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="attractions.length">
-      <app-card *ngFor="let attr of attractions" [card]="attr" (click)="openAttr(attr)"></app-card>
+    <div>
+      <a (click)="routeToSearch('public')" class="link">
+        <h2 class="big-title">Достопримечательности от народа</h2>
+        <i class="pi pi-arrow-right"></i>
+      </a>
+      <div class="grid gap-8 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="attractions.length">
+        <app-card *ngFor="let attr of attractions" [data]="attr"></app-card>
+      </div>
+      <p-progressSpinner *ngIf="!attractions.length"></p-progressSpinner>
     </div>
-    <p-progressSpinner *ngIf="!attractions.length"></p-progressSpinner>
-  </div>
-  <div>
-    <a routerLink="/attractions/public" class="flex justify-between mb-4">
-      <h2>Достопримечательности от народа</h2>
-      <i class="pi pi-arrow-right"></i>
-    </a>
-    <div class="grid gap-8 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="attractions.length">
-      <app-card *ngFor="let attr of attractions" [card]="attr" (click)="openAttr(attr)"></app-card>
-    </div>
-    <p-progressSpinner *ngIf="!attractions.length"></p-progressSpinner>
   </div>
 </main>
-
-<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '70vw' }" [draggable]="false" [resizable]="false"
-  *ngIf="chosenAttraction">
-  <div class="flex">
-    <img class="modal-img" src="assets/pelmen.png" alt="" />
-    <div class="flex flex-col gap-2 ml-4">
-      <div class="flex gap-2">
-        <h1 class="middle-title">{{ chosenAttraction.title }}</h1>
-        <div class="icon-text">
-          <i class="pi pi-star"></i>
-          <span>{{ chosenAttraction.rating }}</span>
-        </div>
-        <div class="icon-text">
-          <i class="pi pi-money-bill"></i>
-          <p>{{ chosenAttraction.price }}</p>
-        </div>
-      </div>
-      <p><b> Описание: </b> {{ chosenAttraction.description }}</p>
-      <p><b> Время работы: </b> {{ chosenAttraction.time }}</p>
-      <p><b>Адрес: </b> {{ chosenAttraction.address }}</p>
-      <div *ngFor="let review of chosenAttraction.reviews">
-        {{ review }}
-      </div>
-      <div class="container">
-        <ya-map [center]="[
-            chosenAttraction.coordinates[0],
-            chosenAttraction.coordinates[1]
-          ]" [zoom]="12">
-          <ya-placemark [geometry]="[
-              chosenAttraction.coordinates[0],
-              chosenAttraction.coordinates[1]
-            ]"></ya-placemark>
-        </ya-map>
-      </div>
-    </div>
-  </div>
-</p-dialog>

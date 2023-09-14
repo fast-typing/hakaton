@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ButtonModule } from 'primeng/button';
 import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AttractionsComponent } from './pages/attractions/attractions.component';
@@ -12,10 +11,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { CookiesService } from './services/cookies.service';
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularYandexMapsModule, YaConfig} from 'angular8-yandex-maps';
-import { LoginComponent } from './pages/login/login.component';
-import { SignupComponent } from './pages/signup/signup.component';
+import { AngularYandexMapsModule, YaConfig } from 'angular8-yandex-maps';
+import { SearchComponent } from './pages/search/search.component';
 import { InputTextModule } from 'primeng/inputtext';
+import { CarouselModule } from 'primeng/carousel';
+import { DropdownModule } from 'primeng/dropdown';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { AuthGuard } from './guard/auth.guard';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { FormsModule } from '@angular/forms';
 
 const mapConfig: YaConfig = {
   apikey: '54f1889a-0cc9-49d2-bfa1-c8d65d1fe91e',
@@ -23,10 +30,10 @@ const mapConfig: YaConfig = {
 };
 
 const routes: Routes = [
-  { path: 'attractions', component: AttractionsComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'login', component: LoginComponent },
+  { path: '', component: AttractionsComponent, },
+  { path: 'search', component: SearchComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: 'attractions' },
 ]
 
 @NgModule({
@@ -36,21 +43,28 @@ const routes: Routes = [
     ProfileComponent,
     HeaderComponent,
     CardComponent,
-    LoginComponent,
-    SignupComponent,
+    SearchComponent,
   ],
   imports: [
+    FormsModule,
+    SelectButtonModule,
+    InputNumberModule,
+    InputMaskModule,
+    MultiSelectModule,
+    ReactiveFormsModule,
+    CarouselModule,
+    DropdownModule,
     InputTextModule,
     AngularYandexMapsModule,
     DialogModule,
     BrowserModule,
     HttpClientModule,
     ProgressSpinnerModule,
-    ButtonModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
+    AngularYandexMapsModule.forRoot(mapConfig),
   ],
-  providers: [CookiesService],
+  providers: [CookiesService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

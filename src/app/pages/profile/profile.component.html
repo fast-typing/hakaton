@@ -1,1 +1,115 @@
-<header></header>
+<div class="grid gap-8 main-container">
+    <form class="flex gap-4 flex-col md:flex-row" (ngSubmit)="submit()" [formGroup]="userData">
+        <input formControlName="userName" placeholder="Ваше имя">
+        <input formControlName="email" placeholder="Ваша почта">
+        <button>Сохранить</button>
+    </form>
+    <p-selectButton [options]="types" [(ngModel)]="type"></p-selectButton>
+    <ng-container *ngIf="type === 'Избранное'">
+        <div>
+            <h1 class="middle-title">
+                Избранное
+            </h1>
+            <div *ngIf="favoriteAttr; else emptyFav">
+                <div *ngFor="let attr of favoriteAttr">
+                    {{attr}}
+                </div>
+            </div>
+            <ng-template #emptyFav>
+                <p style="color: var(--sub-text)">
+                    Нажмите на середчко у достопримечательности и оно будет здесь отображаться
+                </p>
+            </ng-template>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="type === 'Мои достопримечательности'">
+        <div>
+            <h1 class="middle-title">
+                Мои достопримечательности
+            </h1>
+            <div *ngIf="userAttr; else emptyUser">
+        
+            </div>
+            <ng-template #emptyUser>
+                <p style="color: var(--sub-text)">
+                    Нажмите на кнопку создать достопримечательность
+                </p>
+            </ng-template>
+            <button (click)="toggleModal()">Создать Место</button>
+        </div>
+    </ng-container>
+</div>
+
+<p-dialog [(visible)]="isModalVisible" [modal]="true" [style]="{ width: '70vw' }" [draggable]="false"
+    [resizable]="false" header="Создание достопримечательности">
+    <form [formGroup]="attrData" class="flex">
+        <img class="modal-img" src="assets/pelmen.png" alt="" />
+        <div class="flex flex-col gap-4 ml-4">
+            <div class="input-box">
+                <label>
+                    <span style="color: var(--red);">* </span>
+                    Заголовок
+                </label>
+                <input placeholder="Заголовок" formControlName="title">
+            </div>
+            <div class="input-box">
+                <label>
+                    <span style="color: var(--red);">* </span>
+                    Стоимость
+                </label>
+                <input type="number" placeholder="Стоимость" formControlName="price">
+            </div>
+            <div class="input-box">
+                <label>
+                    <span style="color: var(--red);">* </span>
+                    Город
+                </label>
+                <p-dropdown [options]="cities" formControlName="city" placeholder="Выберите город"></p-dropdown>
+            </div>
+            <div class="input-box">
+                <label>
+                    <span style="color: var(--red);">* </span>
+                    Время работы
+                </label>
+                <div class="flex justify-between gap-4">
+                    <div style="width: 100%">
+                        <p>
+                            Начало
+                        </p>
+                        <input style="width: 100%;" type="time" formControlName="time">
+                    </div>
+                    <div style="width: 100%">
+                        <p>
+                            Конец
+                        </p>
+                        <input style="width: 100%;" type="time" formControlName="time">
+                    </div>
+                </div>
+            </div>
+            <div class="input-box">
+                <label>
+                    <span style="color: var(--red);">* </span>
+                    Адрес
+                </label>
+                <input placeholder="Адрес" formControlName="address">
+            </div>
+            <div class="input-box">
+                <label>Описание</label>
+                <textarea placeholder="Описание" formControlName="description" rows="6" cols="40">
+                </textarea>
+            </div>
+            <!-- <div class="map-container">
+                <ya-map [center]="[
+            data.coordinates[0],
+            data.coordinates[1]
+          ]" [zoom]="12">
+                    <ya-placemark [geometry]="[
+              data.coordinates[0],
+              data.coordinates[1]
+            ]"></ya-placemark>
+                </ya-map>
+            </div> -->
+            <button>Сохранить</button>
+        </div>
+    </form>
+</p-dialog>
