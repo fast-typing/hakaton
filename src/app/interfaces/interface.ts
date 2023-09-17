@@ -4,10 +4,10 @@ export interface Attraction {
     rating: number
     price: number
     // reviews: Review[]
-    description: string
+    description?: string
     address: string
     time: string
-    img: string
+    img?: string
     coordinates: number[]
     isFavorite: boolean
     categories: string[]

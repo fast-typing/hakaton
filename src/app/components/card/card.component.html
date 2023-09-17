@@ -4,7 +4,7 @@
         <i *ngIf="loadingFav" class="pi pi-spin pi-spinner"></i>
     </button>
     <div (click)="toggleModal()">
-        <img loading="lazy" [src]="data.img" [alt]="data.img">
+        <img loading="lazy" [src]="data.img || 'https://netsh.pp.ua/wp-content/uploads/2017/08/Placeholder-1.png'" [alt]="data.img">
         <div class="p-4 grid gap-2">
             <div class="flex gap-1 categories">
                 <span class="category" *ngFor="let category of data.categories">
@@ -30,8 +30,8 @@
 <p-dialog [(visible)]="isModalVisible" [modal]="true" [draggable]="false"
     [resizable]="false" *ngIf="data" header="Подробная информация">
     <div class="grid gap-8 lg:flex">
-        <img loading="lazy" [src]="data.img" [alt]="data.img">
-        <div class="flex flex-col gap-4 max-w-3xl">
+        <img *ngIf="data.img" loading="lazy" [src]="data.img" [alt]="data.img">
+        <div class="flex flex-col gap-4 max-w-3xl w-full">
             <div class="flex items-center gap-2">
                 <h1 class="big-title" style="margin: 0;">{{ data.title }}</h1>
                 <div class="icon-text">
@@ -58,8 +58,10 @@
                 <p>{{data.address}}</p>
             </div>
             <p-divider></p-divider>
-            <p> {{ data.description }}</p>
-            <p-divider></p-divider>
+            <ng-container *ngIf="data.description">
+                <p> {{ data.description }}</p>
+                <p-divider></p-divider>
+            </ng-container>
             <!-- <div *ngFor="let review of data.reviews">
                 <div class="flex gap-2 items-center">
                     <h1 class="middle-title">{{review.title}}</h1>
