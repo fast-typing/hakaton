@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Attraction } from 'src/app/interfaces/interface';
 import { HTTPService } from 'src/app/services/http.service';
+import { cities, categories, types } from 'src/app/app.const';
 
 @Component({
   selector: 'app-search',
@@ -11,22 +12,16 @@ import { HTTPService } from 'src/app/services/http.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+  public types: string[] = types
+  public cities: string[] = cities
+  public categories: string[] = categories
+
+  public attractions!: Attraction[]
+  public filteredAttractions!: Attraction[]
+
   public filter!: FormGroup
   public type!: string
-
-  public attractions: Attraction[] = [
-    { city: 'Ижевск', type: "official", isFavorite: false, categories: ['Кафе', 'Духовное', 'Сооружения'], coordinates: [55.751952, 37.600739], address: 'Соцгород, Первомайский район, Ижевск', time: 'Круглосуточно', img: 'dasd/asdasd', id: '1', title: 'Пельмень на вилке', rating: { quantity: 1200, stars: 4.5 }, price: 0, reviews: [], description: 'Этот пельмень очень вкусный я его вчера ел мне невероятно понрмалиось всем рекомендую. Всем пока я пвкусно поел!!1' },
-    { city: 'Ижевск', type: "official", isFavorite: true, categories: ['Развлечение'], coordinates: [55.751952, 37.600739], address: 'Соцгород, Первомайский район, Ижевск', time: 'Круглосуточно', img: 'dasd/asdasd', id: '1', title: 'Пельмень на вилке', rating: { quantity: 102, stars: 3.9 }, price: 0, reviews: [], description: 'Этот пельмень очень вкусный я его вчера ел мне невероятно понрмалиось всем рекомендую. Всем пока я пвкусно поел!!1' },
-    { city: 'Сарапул', type: "official", isFavorite: false, categories: ['Сооружения', 'Музеи', 'Парки'], coordinates: [55.751952, 37.600739], address: 'Соцгород, Первомайский район, Ижевск', time: 'Круглосуточно', img: 'dasd/asdasd', id: '1', title: 'Пельмень на вилке', rating: { quantity: 34, stars: 2.1 }, price: 0, reviews: [], description: 'Этот пельмень очень вкусный я его вчера ел мне невероятно понрмалиось всем рекомендую. Всем пока я пвкусно поел!!1' },
-    { city: 'Ижевск', type: "official", isFavorite: false, categories: ['Памятники', 'Развлечение'], coordinates: [55.751952, 37.600739], address: 'Соцгород, Первомайский район, Ижевск', time: 'Круглосуточно', img: 'dasd/asdasd', id: '1', title: 'Пельмень на вилке', rating: { quantity: 2391, stars: 5 }, price: 0, reviews: [], description: 'Этот пельмень очень вкусный я его вчера ел мне невероятно понрмалиось всем рекомендую. Всем пока я пвкусно поел!!1' },
-  ]
-  public filteredAttractions: Attraction[] = this.attractions
-
-  public types: { value: string, name: string }[] = [{ value: 'official', name: 'Официальное' }, { value: 'public', name: 'От народа' }]
-  public cities: string[] = ["Ижевск", "Глазов", "Сарапул", "Воткинск",]
-  public categories: string[] = ["Памятники", "Музеи", "Сооружения", "Парки", "Развлечение", "Культура", "Духовное", "Кафе"]
-  // public selectedType: { value: string, name: string } = { value: 'official', name: 'Официальное' }
-  // public types: string[] = ['Официальное', 'От народа']
+  public loading: boolean = true
 
   constructor(
     private readonly fb: FormBuilder,
@@ -35,12 +30,29 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.filter = this.fb.group({
-      types: [],
-      cities: [],
-      categories: [],
-    })
+    this.http.getAllAttr().subscribe((res: Attraction[]) => {
+      // this.http.getFavoriteAttr().subscribe((res2: string[]) => {
+      //   console.log(res2)
+      // })
+      console.log(res)
+      if (!res) return
+      this.attractions = res
+      this.filteredAttractions = res
+      this.loading = false
 
+      this.filter = this.fb.group({
+        types: [],
+        cities: [],
+        categories: [],
+      })
+
+      this.filterByFormValue()
+
+      this.filterByQuery()
+    })
+  }
+
+  filterByFormValue(): void {
     this.filter.valueChanges.subscribe((form) => {
       this.filteredAttractions = this.attractions
 
@@ -50,12 +62,14 @@ export class SearchComponent implements OnInit {
           return types.includes(attr.type)
         })
       }
-      console.log(form)
 
-      const cities = form.cities
+      // ДРУГОЕ !!!
+      const cities = form.cities.map((item: string) => item.toLocaleLowerCase())
       if (cities?.length) {
         this.filteredAttractions = this.filteredAttractions.filter((attr: Attraction) => {
-          return cities.includes(attr.city)
+          const address = attr.address.replace(/\s/g, '').toLocaleLowerCase().split(',')
+          const city = address.at(-1)
+          return cities.includes(city)
         })
       }
 
@@ -68,17 +82,13 @@ export class SearchComponent implements OnInit {
         })
       }
     })
+  }
 
-    // this.http.getAttractions().subscribe((res) => {
-    //   if (!res) return
-    //   this.attractions = res
-    //   this.filteredAttractions = res
-    // })
-
+  filterByQuery(): void {
     this.actRoute.queryParams.subscribe((params) => {
       if (params['type']) {
         const type = params['type']
-        const queryTypes = this.types.find((item) => item.value === type)?.value
+        const queryTypes = this.types.find((item) => item === type)
         this.filter.patchValue({
           types: queryTypes?.length ? [queryTypes] : []
         })
@@ -86,15 +96,10 @@ export class SearchComponent implements OnInit {
 
       if (params['city']) {
         const city = params['city']
-        const queryCities = 
         this.filter.patchValue({
           cities: this.cities.filter((item) => item === city) ?? []
         })
       }
     })
-  }
-
-  submit() {
-
   }
 }

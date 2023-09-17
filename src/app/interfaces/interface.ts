@@ -1,12 +1,9 @@
 export interface Attraction {
     id: string
     title: string
-    rating: {
-        stars: number
-        quantity: number
-    }
+    rating: number
     price: number
-    reviews: Review[]
+    // reviews: Review[]
     description: string
     address: string
     time: string
@@ -15,14 +12,13 @@ export interface Attraction {
     isFavorite: boolean
     categories: string[]
     type: string
-    city: string
 }
 
-export interface Review {
-    stars: number
-    description: string
-    title: string
-}
+// export interface Review {
+//     stars: number
+//     description: string
+//     title: string
+// }
 
 export interface User {
     id: string

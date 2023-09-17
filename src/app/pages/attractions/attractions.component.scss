@@ -23,6 +23,12 @@
     }
 
     .main-header {
+        height: 100vh;
+        background-image:
+            linear-gradient(to bottom, rgba(0, 0, 0, .4), rgba(0, 0, 0, .4)),
+            url('../../../assets/main-1.jpg');
+        background-size: cover;
+        background-position: center;
         position: relative;
         text-align: center;
 
@@ -58,7 +64,7 @@
         }
     }
 
-    @media (max-width: 640px){
+    @media (max-width: 640px) {
         .main-content {
             margin: 0 20px;
 

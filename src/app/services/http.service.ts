@@ -8,22 +8,46 @@ import { CookiesService } from "./cookies.service";
     providedIn: 'root',
 })
 
-
 export class HTTPService {
     constructor(
         private readonly http: HttpClient,
         private readonly cookiesService: CookiesService,
     ) { }
 
-    getAttractions(): Observable<Attraction[]> {
-        return this._request('GET', 'attractions')
+    login(body: any): Observable<{ access_token: string, refresh_token: string }> {
+        return this._request('POST', 'login', body)
+    }
+
+    registration(body: any): Observable<string[]> {
+        return this._request('POST', 'registration', body)
+    }
+
+    createAttr(body: any, token: string) {
+        return this._request('POST', 'create_landmark', body, `token=${token}`)
+        // return this._request('POST', 'create_landmark', [body, token])
+    }
+
+    addToFavorite(id: string, token: string) {
+        return this._request('POST', 'add_to_favorite', { id: id }, `token=${token}`)
+    }
+
+    removeFromFavorite(id: string, token: string) {
+        return this._request('POST', 'remove_from_favorite', { id: id }, `token=${token}`)
+    }
+
+    getAllAttr(): Observable<Attraction[]> {
+        return this._request('GET', 'read_all_landmarks')
+    }
+
+    getFavoriteAttr(): Observable<string[]> {
+        return this._request('GET', 'favorite_landmarks')
     }
 
     getUserByToken(token: string): Observable<User> {
-        return this._request('GET', 'user')
+        return this._request('GET', 'get_user_by_token', { token: token })
     }
 
-    _request(method: string, path: string, body?: any): Observable<any> {
+    _request(method: string, path: string, body?: any, query: string = ''): Observable<any> {
         const token = this.cookiesService.getCookie('token');
         let headers = new HttpHeaders();
         headers = headers.set('Content-Type', 'application/json');
@@ -34,7 +58,8 @@ export class HTTPService {
             headers: headers,
             body: body,
         };
-        const url = window.location.origin
-        return this.http.request(method, url + path, options)
+        const url = `http://127.0.0.1:8000/${path}?${query}`
+        console.log(method, url, options)
+        return this.http.request(method, url, options)
     }
 }

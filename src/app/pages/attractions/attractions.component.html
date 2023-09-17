@@ -7,7 +7,6 @@
           <img [src]="'assets/' + img" alt="">
       </ng-template>
     </p-carousel> -->
-    <img src="assets/main-1.jpg" alt="">
   </div>
   <div class="grid gap-24 main-content">
     <div class="cities">
@@ -24,20 +23,20 @@
         <h2 class="big-title">Официальные</h2>
         <i class="pi pi-arrow-right"></i>
       </a>
-      <div class="grid gap-8 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="attractions.length">
-        <app-card *ngFor="let attr of attractions" [data]="attr"></app-card>
+      <div class="grid gap-8 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="officilAttrs?.length">
+        <app-card *ngFor="let attr of officilAttrs" [data]="attr"></app-card>
       </div>
-      <p-progressSpinner *ngIf="!attractions.length"></p-progressSpinner>
+      <p-progressSpinner *ngIf="!officilAttrs?.length"></p-progressSpinner>
     </div>
     <div>
       <a (click)="routeToSearch('public')" class="link">
         <h2 class="big-title">Достопримечательности от народа</h2>
         <i class="pi pi-arrow-right"></i>
       </a>
-      <div class="grid gap-8 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="attractions.length">
-        <app-card *ngFor="let attr of attractions" [data]="attr"></app-card>
+      <div class="grid gap-8 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="publicAttrs?.length">
+        <app-card *ngFor="let attr of publicAttrs" [data]="attr"></app-card>
       </div>
-      <p-progressSpinner *ngIf="!attractions.length"></p-progressSpinner>
+      <p-progressSpinner *ngIf="!publicAttrs?.length"></p-progressSpinner>
     </div>
   </div>
 </main>

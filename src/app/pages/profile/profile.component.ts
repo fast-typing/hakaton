@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Attraction, User } from 'src/app/interfaces/interface';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { HTTPService } from 'src/app/services/http.service';
+import { cities, categories, types } from 'src/app/app.const';
 
 @Component({
   selector: 'app-profile',
@@ -17,9 +18,11 @@ export class ProfileComponent implements OnInit {
   public userAttr!: Attraction[]
   public favoriteAttr!: Attraction[]
   public isModalVisible: boolean = false
-  public cities: string[] = ["Ижевск", "Глазов", "Сарапул", "Воткинск",]
-  public types: string[] = ['Избранное', 'Мои достопримечательности'] 
-  public type: string = this.types[0]
+  public loading: boolean = true
+  public cities: string[] = cities
+  public categories: string[] = categories
+  public types: { name: string, icon: string }[] = [{ name: 'Избранное', icon: 'pi pi-heart' }, { name: 'Мои достопримечательности', icon: 'pi pi-user' }]
+  public type: { name: string, icon: string } = this.types[0]
 
   constructor(
     private readonly http: HTTPService,
@@ -28,26 +31,46 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const token = this.cookiesService.getCookie('token')
-    // this.http.getUserByToken(token!).subscribe((res) => {
-    this.userData = this.fb.group({
-      userName: [''],
-      email: [''],
-      password: [''],
+    const refresh_token = this.cookiesService.getCookie('refresh_token') ?? ''
+    this.http.getUserByToken(refresh_token).subscribe((res: any) => {
+      console.log(res)
+      const user = res
+      this.userData = this.fb.group({
+        userName: [user.username ?? ''],
+        email: [user.email ?? ''],
+        password: [user.password ?? ''],
+      })
+      this.loading = false
     })
-    // })
     this.attrData = this.fb.group({
       title: ['', [Validators.required]],
       price: ['', [Validators.required]],
-      time: ['', [Validators.required]],
+      startTime: ['', [Validators.required]],
+      endTime: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      description: [''],
-      city: ['']
+      categories: [[], [Validators.required]],
+      description: ['', [Validators.maxLength(255)]],
+      img: [''],
+      city: [cities[0]]
     })
   }
 
-  submit() {
+  changeType(obj: { name: string, icon: string }) {
+    this.type = obj
+  }
 
+  submit() {
+    const data = this.attrData.value
+    data.time = data.startTime + '-' + data.endTime
+    data.address = data.address + ', ' + data.city
+    data.rating = 0
+    data.type = 'От народа'
+    data.coordinates = [0, 0] 
+    delete data.endTime
+    delete data.startTime
+    delete data.city
+    const token = this.cookiesService.getCookie('token') ?? ''
+    this.http.createAttr(data, token).subscribe((res) => console.log(res))
   }
 
   toggleModal() {

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Attraction } from 'src/app/interfaces/interface';
+import { cities } from 'src/app/app.const';
+import { HTTPService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-attractions',
@@ -8,26 +10,32 @@ import { Attraction } from 'src/app/interfaces/interface';
   styleUrls: ['./attractions.component.scss']
 })
 
-export class AttractionsComponent {
-  public attractions: Attraction[] = [
-    { city: 'Ижевск', type: "official", isFavorite: false, categories: ['кафе', 'памятник', 'развлечение'], coordinates: [55.751952, 37.600739], address: 'Соцгород, Первомайский район, Ижевск', time: 'Круглосуточно', img: 'dasd/asdasd', id: '1', title: 'Пельмень на вилке', rating: { quantity: 1200, stars: 4.5 }, price: 0, reviews: [], description: 'Этот пельмень очень вкусный я его вчера ел мне невероятно понрмалиось всем рекомендую. Всем пока я пвкусно поел!!1' },
-    { city: 'Ижевск', type: "official", isFavorite: true, categories: ['кафе', 'развлечение'], coordinates: [55.751952, 37.600739], address: 'Соцгород, Первомайский район, Ижевск', time: 'Круглосуточно', img: 'dasd/asdasd', id: '1', title: 'Пельмень на вилке', rating: { quantity: 102, stars: 3.9 }, price: 0, reviews: [], description: 'Этот пельмень очень вкусный я его вчера ел мне невероятно понрмалиось всем рекомендую. Всем пока я пвкусно поел!!1' },
-    { city: 'Сарапул', type: "official", isFavorite: false, categories: ['кафе', 'культура', 'развлечение'], coordinates: [55.751952, 37.600739], address: 'Соцгород, Первомайский район, Ижевск', time: 'Круглосуточно', img: 'dasd/asdasd', id: '1', title: 'Пельмень на вилке', rating: { quantity: 34, stars: 2.1 }, price: 0, reviews: [], description: 'Этот пельмень очень вкусный я его вчера ел мне невероятно понрмалиось всем рекомендую. Всем пока я пвкусно поел!!1' },
-    { city: 'Ижевск', type: "official", isFavorite: false, categories: ['памятник', 'развлечение'], coordinates: [55.751952, 37.600739], address: 'Соцгород, Первомайский район, Ижевск', time: 'Круглосуточно', img: 'dasd/asdasd', id: '1', title: 'Пельмень на вилке', rating: { quantity: 2391, stars: 5 }, price: 0, reviews: [], description: 'Этот пельмень очень вкусный я его вчера ел мне невероятно понрмалиось всем рекомендую. Всем пока я пвкусно поел!!1' },
-  ]
+export class AttractionsComponent implements OnInit{
+  public officilAttrs!: Attraction[]
+  public publicAttrs!: Attraction[]
   public cities: { name: string, img: string }[] = [
-    { name: "Ижевск", img: "izhevsk.jpg" },
-    { name: "Глазов", img: "glazov.jpg" },
-    { name: "Сарапул", img: "sarapul.jpeg" },
-    { name: "Воткинск", img: "votkinsk.jpg" }
+    { name: cities[0], img: "izhevsk.jpg" },
+    { name: cities[1], img: "glazov.jpg" },
+    { name: cities[2], img: "sarapul.jpeg" },
+    { name: cities[3], img: "votkinsk.jpg" }
   ]
   public imgs: string[] = ["main-1.jpg", "main-1.jpg", "main-1.jpg", "main-1.jpg", "main-1.jpg"]
 
   constructor(
     private readonly router: Router,
+    private readonly http: HTTPService,
   ) { }
+
+  ngOnInit(): void {
+    this.http.getAllAttr().subscribe((res: Attraction[]) => {
+      this.officilAttrs = res.filter((item) => item.type == 'Официальный')
+      this.publicAttrs = res.filter((item) => item.type == 'От народа')
+    })
+  }
 
   routeToSearch(type: string) {
     this.router.navigate(['/search'], { queryParams: { type: type } })
   }
 }
+
+// СЕРВИС ДЛЯ ATTR !!!

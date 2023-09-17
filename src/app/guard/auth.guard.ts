@@ -10,7 +10,7 @@ export class AuthGuard {
     ) { }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        const token = this.cookiesService.getCookie('token');
+        const token = this.cookiesService.getCookie('access_token');
         if (!token) {
             this.route.navigate(['/'])
             return false

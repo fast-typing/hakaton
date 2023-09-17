@@ -10,6 +10,8 @@
             background-color: white;
             padding: 10px;
             border-radius: 8px;
+            color: black;
+            display: flex;
         }
 
         .shadow {
@@ -29,11 +31,7 @@
         height: 500px;
     }
 
-    .modal-img {
-        width: 100%;
-    }
-
-    .description {
+    .two-rows-text {
         display: -webkit-box;
         -webkit-line-clamp: 2; // количество строк
         -webkit-box-orient: vertical;
@@ -44,14 +42,29 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-
     }
 
     .category {
         background-color: #f1f1f1;
         font-size: 500;
         border-radius: 5px;
-        padding: 0 8px;
+        padding: 2px 8px;
         font-size: 12px;
+    }
+
+    ::ng-deep {
+        .p-divider {
+            margin: 0;
+        }
+
+        .p-dialog {
+            max-width: 100vw;
+            width: fit-content;
+
+            img {
+                max-width: 450px;
+                width: 100%;
+            }
+        }
     }
 }
