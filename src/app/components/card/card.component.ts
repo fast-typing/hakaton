@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { Attraction } from 'src/app/interfaces/interface';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { HTTPService } from 'src/app/services/http.service';
@@ -18,6 +19,7 @@ export class CardComponent {
   constructor(
     private http: HTTPService,
     private cookiesService: CookiesService,
+    private readonly messageService: MessageService
   ) { }
 
   getPrice(): string {
@@ -35,24 +37,26 @@ export class CardComponent {
 
   toggleModal() {
     this.isModalVisible = !this.isModalVisible
-    console.log(this.data)
   }
 
   toggleFavorite(id: string) {
-    this.loadingFav = true
-    const token = this.cookiesService.getCookie('access_token') ?? ''
-    if (this.data.isFavorite) {
-      this.http.removeFromFavorite(id, token).subscribe((res) => {
-        console.log(res)
-        this.data.isFavorite = !this.data.isFavorite
-        this.loadingFav = false
-      })
+    const access_token = this.cookiesService.getCookie('access_token')
+
+    if (access_token) {
+      this.loadingFav = true
+      if (this.data.isFavorite) {
+        this.http.removeFromFavorite(id, access_token).subscribe((res) => {
+          this.data.isFavorite = !this.data.isFavorite
+          this.loadingFav = false
+        })
+      } else {
+        this.http.addToFavorite(id, access_token).subscribe((res) => {
+          this.data.isFavorite = !this.data.isFavorite
+          this.loadingFav = false
+        })
+      }
     } else {
-      this.http.addToFavorite(id, token).subscribe((res) => {
-        console.log(res)
-        this.data.isFavorite = !this.data.isFavorite
-        this.loadingFav = false
-      })
+      this.messageService.add({ key: 'toast', severity: 'info', summary: 'Войдите в аккаунт', detail: 'Эта функция доступно лишь авторизованным пользователям' })
     }
   }
 }

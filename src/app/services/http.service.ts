@@ -58,7 +58,6 @@ export class HTTPService {
             body: body,
         };
         const url = `http://127.0.0.1:8000/${path}?${query}`
-        console.log(method, url, options)
         return this.http.request(method, url, options)
     }
 }

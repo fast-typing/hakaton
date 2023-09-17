@@ -12,9 +12,9 @@ import { HTTPService } from 'src/app/services/http.service';
 })
 export class HeaderComponent implements OnInit {
   public isAuth = false
-  public isAuthModalVisible = false
-  public isMobileModalVisible = false
-  public chosenModal!: string
+  public isAuthModalVisible = false //
+  public isMobileModalVisible = false //
+  public chosenModal!: string //
   public userData!: FormGroup
 
   constructor(
@@ -89,6 +89,7 @@ export class HeaderComponent implements OnInit {
           this.isAuth = true
           this.cookiesService.setCookie('access_token', access_token)
           this.cookiesService.setCookie('refresh_token', refresh_token)
+          location.reload()
         }
       }),
       error: ((error) => {
@@ -99,8 +100,9 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.cookiesService.deleteCookie('token')
-    this.route.navigate(['/'])
+    this.cookiesService.deleteCookie('access_token')
+    this.cookiesService.deleteCookie('refresh_token')
+    location.reload()
     this.isAuth = false
   }
 

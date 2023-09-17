@@ -1,9 +1,8 @@
 <div class="grid gap-8 main-container">
     <ng-container *ngIf="!loading">
-        <form class="flex gap-4 flex-col md:flex-row" (ngSubmit)="submit()" [formGroup]="userData">
+        <form class="flex gap-4 flex-col md:flex-row" [formGroup]="userData">
             <input formControlName="userName" placeholder="Ваше имя">
             <input formControlName="email" placeholder="Ваша почта">
-            <button>Сохранить</button>
         </form>
         <div class="flex w-full md:w-fit">
             <ng-container *ngFor="let item of types">
@@ -54,9 +53,9 @@
 
 <p-dialog [(visible)]="isModalVisible" [modal]="true" [style]="{ width: 'fit-content' }" [draggable]="false"
     [resizable]="false" header="Создание места" [maximizable]="true">
-    <form (ngSubmit)="submit()" [formGroup]="attrData" class="grid gap-4 justify-between md:flex">
-        <ng-container *ngIf="attrData.value.imgUrl">
-            <img class="modal-img" [src]="attrData.value.imgUrl" [alt]="attrData.value.imgUrl"/>
+    <form (ngSubmit)="createAttraction()" [formGroup]="attrData" class="grid gap-4 justify-between md:flex">
+        <ng-container *ngIf="attrData.value.img">
+            <img loading="lazy" class="modal-img" [src]="attrData.value.img" [alt]="attrData.value.img"/>
         </ng-container>
         <div class="flex flex-col gap-4">
             <div class="input-box">

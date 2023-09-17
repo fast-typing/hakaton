@@ -73,7 +73,6 @@ export class SearchComponent implements OnInit {
         })
       }
 
-      // ДРУГОЕ !!!
       const cities = form.cities?.map((item: string) => item.toLocaleLowerCase())
       if (cities?.length) {
         this.filteredAttractions = this.filteredAttractions.filter((attr: Attraction) => {

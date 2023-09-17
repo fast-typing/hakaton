@@ -4,6 +4,7 @@ import { Attraction, User } from 'src/app/interfaces/interface';
 import { CookiesService } from 'src/app/services/cookies.service';
 import { HTTPService } from 'src/app/services/http.service';
 import { cities, categories, types } from 'src/app/app.const';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private readonly http: HTTPService,
     private readonly cookiesService: CookiesService,
+    private readonly messageService: MessageService,
     private readonly fb: FormBuilder,
   ) { }
 
@@ -54,7 +56,7 @@ export class ProfileComponent implements OnInit {
       endTime: ['', [Validators.required]],
       address: ['', [Validators.required]],
       categories: [[], [Validators.required]],
-      description: ['', [Validators.maxLength(255)]],
+      description: ['', [Validators.maxLength(1000)]],
       img: [''],
       city: [cities[0]]
     })
@@ -64,7 +66,10 @@ export class ProfileComponent implements OnInit {
     this.type = obj
   }
 
-  submit() {
+  createAttraction() {
+      this.attrData.markAsUntouched()
+      if (this.attrData.invalid) return
+
     this.loadingRes = true
     const data = this.attrData.value
     data.time = data.startTime + '-' + data.endTime
@@ -77,8 +82,9 @@ export class ProfileComponent implements OnInit {
     delete data.city
     const access_token = this.cookiesService.getCookie('access_token') ?? ''
     this.http.createAttr(data, access_token).subscribe((res) => {
-      console.log(res)
+      this.messageService.add({ key: 'toast', severity: 'success', summary: 'Успех', detail: 'Вы успешно создали достопримечательность!' })
       this.loadingRes = false
+      this.isModalVisible = false
     })
   }
 

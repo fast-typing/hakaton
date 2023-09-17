@@ -103,11 +103,19 @@ button {
   display: grid;
 }
 
-.ng-submitted {
-  .ng-invalid {
-    border-color: var(--red);
-  }
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
 }
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid var(--red); /* red */
+}
+
+// .ng-submitted {
+//   .ng-invalid {
+//     border-color: var(--red);
+//   }
+// }
 
 @media (max-width: 640px) {
   .main-container {

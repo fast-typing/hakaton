@@ -26,7 +26,6 @@ import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
 import { RatingModule } from 'primeng/rating';
 import { ToastModule } from 'primeng/toast';
-import { AuthModalComponent } from './components/auth-modal/auth-modal.component';
 
 const mapConfig: YaConfig = {
   apikey: '54f1889a-0cc9-49d2-bfa1-c8d65d1fe91e',
@@ -48,7 +47,6 @@ const routes: Routes = [
     HeaderComponent,
     CardComponent,
     SearchComponent,
-    AuthModalComponent,
   ],
   imports: [
     ToastModule,
