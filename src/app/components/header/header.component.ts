@@ -100,6 +100,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.cookiesService.deleteCookie('token')
+    this.route.navigate(['/'])
     this.isAuth = false
   }
 

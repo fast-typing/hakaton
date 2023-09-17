@@ -24,7 +24,6 @@ export class HTTPService {
 
     createAttr(body: any, token: string) {
         return this._request('POST', 'create_landmark', body, `token=${token}`)
-        // return this._request('POST', 'create_landmark', [body, token])
     }
 
     addToFavorite(id: string, token: string) {
@@ -39,12 +38,12 @@ export class HTTPService {
         return this._request('GET', 'read_all_landmarks')
     }
 
-    getFavoriteAttr(): Observable<string[]> {
-        return this._request('GET', 'favorite_landmarks')
+    getFavoriteAttr(token: string): Observable<string[]> {
+        return this._request('GET', 'favorite_landmarks', null, `token=${token}`)
     }
 
     getUserByToken(token: string): Observable<User> {
-        return this._request('GET', 'get_user_by_token', { token: token })
+        return this._request('POST', 'get_user_by_token', { token: token })
     }
 
     _request(method: string, path: string, body?: any, query: string = ''): Observable<any> {

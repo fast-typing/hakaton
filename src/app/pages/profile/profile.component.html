@@ -16,14 +16,12 @@
             </ng-container>
         </div>
         <ng-container *ngIf="type.name === 'Избранное'">
-            <div>
+            <div class="grid gap-4">
                 <h1 class="middle-title">
                     Избранное
                 </h1>
-                <div *ngIf="favoriteAttr; else emptyFav">
-                    <div *ngFor="let attr of favoriteAttr">
-                        {{attr}}
-                    </div>
+                <div class="grid gap-4 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="favoriteAttr?.length; else emptyFav">
+                    <app-card *ngFor="let attr of favoriteAttr" [data]="attr"></app-card>
                 </div>
                 <ng-template #emptyFav>
                     <p style="color: var(--sub-text)">
@@ -33,16 +31,16 @@
             </div>
         </ng-container>
         <ng-container *ngIf="type.name === 'Мои достопримечательности'">
-            <div>
+            <div class="grid gap-4">
                 <h1 class="middle-title">
                     Мои достопримечательности
                 </h1>
-                <div *ngIf="userAttr; else emptyUser">
-            
+                <div class="grid gap-4 grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-4 2xl:!grid-cols-6" *ngIf="userAttr?.length else emptyUser">
+                    <app-card *ngFor="let attr of userAttr" [data]="attr"></app-card>
                 </div>
                 <ng-template #emptyUser>
                     <p style="color: var(--sub-text)">
-                        Нажмите на кнопку создать достопримечательность
+                        Пока вы не создали ни одной достопримечательности
                     </p>
                 </ng-template>
                 <button (click)="toggleModal()">Создать Место</button>
@@ -138,7 +136,7 @@
             ]"></ya-placemark>
                 </ya-map>
             </div> -->
-            <button>Сохранить</button>
+            <button [disabled]="loadingRes">Сохранить</button>
         </div>
     </form>
 </p-dialog>

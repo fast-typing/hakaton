@@ -37,7 +37,7 @@ const routes: Routes = [
   { path: '', component: AttractionsComponent, },
   { path: 'search', component: SearchComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: 'attractions' },
+  { path: '**', redirectTo: '' },
 ]
 
 @NgModule({

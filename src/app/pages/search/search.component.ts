@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Attraction } from 'src/app/interfaces/interface';
 import { HTTPService } from 'src/app/services/http.service';
 import { cities, categories, types } from 'src/app/app.const';
+import { CookiesService } from 'src/app/services/cookies.service';
 
 @Component({
   selector: 'app-search',
@@ -27,18 +28,27 @@ export class SearchComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly actRoute: ActivatedRoute,
     private readonly http: HTTPService,
+    private readonly cookiesService: CookiesService,
   ) { }
 
   ngOnInit(): void {
     this.http.getAllAttr().subscribe((res: Attraction[]) => {
-      // this.http.getFavoriteAttr().subscribe((res2: string[]) => {
-      //   console.log(res2)
-      // })
-      console.log(res)
       if (!res) return
       this.attractions = res
       this.filteredAttractions = res
-      this.loading = false
+
+      const access_token = this.cookiesService.getCookie('access_token')
+      if (access_token) {
+        this.http.getFavoriteAttr(access_token).subscribe((ids: string[]) => {
+          this.attractions = res.map((item) => {
+            if (ids.includes(item.id)) { item.isFavorite = true }
+            return item
+          })
+          this.loading = false
+        })
+      } else {
+        this.loading = false
+      }
 
       this.filter = this.fb.group({
         types: [],
@@ -64,7 +74,7 @@ export class SearchComponent implements OnInit {
       }
 
       // ДРУГОЕ !!!
-      const cities = form.cities.map((item: string) => item.toLocaleLowerCase())
+      const cities = form.cities?.map((item: string) => item.toLocaleLowerCase())
       if (cities?.length) {
         this.filteredAttractions = this.filteredAttractions.filter((attr: Attraction) => {
           const address = attr.address.replace(/\s/g, '').toLocaleLowerCase().split(',')
