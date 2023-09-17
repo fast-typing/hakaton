@@ -1,3 +1,5 @@
+ссылка ан видео - https://drive.google.com/drive/folders/1JUL5iao1KV5MEQzXVh7L5SXCUSOnXxPk
+
 # Хакатон
 
 Для запуска проекта:
